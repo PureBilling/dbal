@@ -36,5 +36,11 @@ class PDOConnection extends PDO implements Connection
         parent::__construct($dsn, $user, $password, $options);
         $this->setAttribute(PDO::ATTR_STATEMENT_CLASS, array('Doctrine\DBAL\Driver\PDOStatement', array()));
         $this->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
+        //Wengo PgBouncer specific option
+        if (array_key_exists(PDO::ATTR_EMULATE_PREPARES, $options)) {
+            $value = $options[PDO::ATTR_EMULATE_PREPARES];
+            $this->setAttribute(PDO::ATTR_EMULATE_PREPARES, $options[PDO::ATTR_EMULATE_PREPARES]);
+        }
     }
 }
